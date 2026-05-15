@@ -19,7 +19,7 @@
     <div class="app">
       <header>
         <h1>Madhu Bhajan</h1>
-        <p>3 free bhajans · log in to listen</p>
+        <p>Free & premium bhajans · log in to listen</p>
       </header>
 
       <section id="login-section" class="card">
@@ -67,8 +67,17 @@
         <p id="user-status" class="hidden" role="status"></p>
       </section>
 
+      <section id="upgrade-section" class="card premium-card hidden">
+        <h2>Premium</h2>
+        <p class="hint">Unlock all bhajans — one-time upgrade.</p>
+        <button type="button" id="upgrade-btn" class="upgrade-btn">
+          Upgrade to Premium — ₹99
+        </button>
+        <p id="premium-badge" class="premium-badge hidden">✓ Premium member</p>
+      </section>
+
       <section id="player-section" class="card">
-        <h2>Free songs</h2>
+        <h2 id="player-heading">Bhajans</h2>
         <ul id="song-list" class="song-list"></ul>
         <p id="now-playing" class="now-playing">Log in, then pick a song.</p>
         <audio id="audio-player" controls preload="none"></audio>
@@ -84,9 +93,12 @@
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="js/firebase-config.js"></script>
     <script src="js/firestore.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/premium.js"></script>
     <script src="js/app.js"></script>
     <script src="js/pwa.js"></script>
   </body>

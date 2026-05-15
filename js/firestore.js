@@ -23,12 +23,12 @@ async function saveUserToFirestore(user) {
     phoneNumber: user.phoneNumber || "",
     photoURL: user.photoURL || "",
     loginProvider: provider,
-    isPremium: false,
     lastLoginAt: firebase.firestore.FieldValue.serverTimestamp(),
   };
 
   if (!snap.exists) {
     profile.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+    profile.isPremium = false;
   }
 
   await ref.set(profile, { merge: true });

@@ -13,5 +13,8 @@ desktop.ini
 firebase-debug.log
 firebase-debug.*.log
 
+# Cloud Functions
+functions/node_modules/
+
 # Optional: ignore large local test files you don't want on GitHub
 # *.mp3

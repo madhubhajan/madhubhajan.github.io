@@ -161,6 +161,26 @@ button.secondary {
   outline: 2px solid #7c3aed;
 }
 
+.song-list button.locked {
+  opacity: 0.85;
+  border: 1px dashed #52525b;
+}
+
+.premium-card {
+  border-color: #7c3aed;
+}
+
+.upgrade-btn {
+  background: #7c3aed;
+}
+
+.premium-badge {
+  margin: 0.75rem 0 0;
+  color: #4ade80;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
 .now-playing {
   margin-top: 0.75rem;
   font-size: 0.9rem;
