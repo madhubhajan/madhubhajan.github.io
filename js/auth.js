@@ -306,6 +306,9 @@ document.addEventListener("DOMContentLoaded", () => {
         window.MusicAuth.setLoggedIn(true, getUserLabel(user));
         resetOtpFlow();
         hidePhoneBackup();
+        saveUserToFirestore(user).catch((err) => {
+          console.error("Could not save user profile:", err);
+        });
       } else {
         window.MusicAuth.setLoggedIn(false);
       }
