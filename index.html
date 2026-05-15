@@ -17,28 +17,43 @@
 
       <section id="login-section" class="card">
         <h2>Login</h2>
-        <p class="hint">
-          Enter your 10-digit mobile number. We send a 6-digit code by SMS.
-        </p>
-        <input
-          id="phone-input"
-          type="tel"
-          inputmode="numeric"
-          placeholder="10-digit mobile number"
-          autocomplete="tel"
-        />
-        <div id="otp-section" class="otp-section hidden">
-          <input
-            id="otp-input"
-            type="text"
-            inputmode="numeric"
-            maxlength="6"
-            placeholder="6-digit OTP"
-            autocomplete="one-time-code"
-          />
+
+        <div id="logged-out-view">
+          <p class="hint">Sign in with Google (recommended, no SMS cost).</p>
+          <button type="button" id="google-login-btn" class="btn-google">
+            Continue with Google
+          </button>
+
+          <button type="button" id="toggle-phone-login" class="link-btn">
+            Use mobile number instead
+          </button>
+
+          <div id="phone-backup-section" class="phone-backup hidden">
+            <p class="hint phone-hint">
+              Backup only — SMS may cost money. Enter 10-digit mobile number.
+            </p>
+            <input
+              id="phone-input"
+              type="tel"
+              inputmode="numeric"
+              placeholder="10-digit mobile number"
+              autocomplete="tel"
+            />
+            <div id="otp-section" class="otp-section hidden">
+              <input
+                id="otp-input"
+                type="text"
+                inputmode="numeric"
+                maxlength="6"
+                placeholder="6-digit OTP"
+                autocomplete="one-time-code"
+              />
+            </div>
+            <div id="recaptcha-container"></div>
+            <button type="button" id="login-btn">Send OTP</button>
+          </div>
         </div>
-        <div id="recaptcha-container"></div>
-        <button type="button" id="login-btn">Send OTP</button>
+
         <button type="button" id="logout-btn" class="secondary hidden">
           Log out
         </button>

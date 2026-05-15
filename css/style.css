@@ -90,6 +90,48 @@ button.secondary {
   margin-top: 0.5rem;
 }
 
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #fff;
+  color: #18181b;
+  border: 1px solid #d4d4d8;
+  margin-bottom: 0.75rem;
+}
+
+.btn-google:hover {
+  background: #f4f4f5;
+}
+
+.link-btn {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #a78bfa;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.link-btn:hover {
+  color: #c4b5fd;
+}
+
+.phone-backup {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #27272a;
+}
+
+.phone-hint {
+  margin-top: 0;
+}
+
 #user-status {
   margin-top: 0.75rem;
   font-size: 0.9rem;
