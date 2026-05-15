@@ -1,14 +1,14 @@
 /**
- * Paste your values from Firebase Console:
- * Project settings (gear) → Your apps → Web app → firebaseConfig
+ * Firebase config — madhubhajan-fc952
+ * From Firebase Console → Project settings → Your apps → Web app
  */
 const firebaseConfig = {
-  apiKey: "PASTE_YOUR_API_KEY",
-  authDomain: "PASTE_YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "PASTE_YOUR_PROJECT_ID",
-  storageBucket: "PASTE_YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID",
-  appId: "PASTE_YOUR_APP_ID",
+  apiKey: "AIzaSyBIPjUcEHBDxpY59t4aQKyK20mGZVm6RtU",
+  authDomain: "madhubhajan-fc952.firebaseapp.com",
+  projectId: "madhubhajan-fc952",
+  storageBucket: "madhubhajan-fc952.firebasestorage.app",
+  messagingSenderId: "821592342294",
+  appId: "1:821592342294:web:ea3621b449cf668aa15a37",
 };
 
 function isFirebaseConfigReady() {
