@@ -18,7 +18,7 @@
       <section id="login-section" class="card">
         <h2>Login</h2>
         <p class="hint">
-          Enter your mobile number. Real SMS login (Firebase) is the next step.
+          Enter your 10-digit mobile number. We send a 6-digit code by SMS.
         </p>
         <input
           id="phone-input"
@@ -27,7 +27,18 @@
           placeholder="10-digit mobile number"
           autocomplete="tel"
         />
-        <button type="button" id="login-btn">Continue</button>
+        <div id="otp-section" class="otp-section hidden">
+          <input
+            id="otp-input"
+            type="text"
+            inputmode="numeric"
+            maxlength="6"
+            placeholder="6-digit OTP"
+            autocomplete="one-time-code"
+          />
+        </div>
+        <div id="recaptcha-container"></div>
+        <button type="button" id="login-btn">Send OTP</button>
         <button type="button" id="logout-btn" class="secondary hidden">
           Log out
         </button>
@@ -44,6 +55,9 @@
       <footer>Madhu Bhajan · MVP</footer>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/app.js"></script>
   </body>
