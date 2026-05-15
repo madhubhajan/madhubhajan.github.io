@@ -176,6 +176,17 @@ audio {
   display: none !important;
 }
 
+.install-btn {
+  width: 100%;
+  margin-top: 1rem;
+  background: #27272a;
+  border: 1px solid #3f3f46;
+}
+
+.install-btn:hover {
+  background: #3f3f46;
+}
+
 footer {
   margin-top: 2rem;
   text-align: center;

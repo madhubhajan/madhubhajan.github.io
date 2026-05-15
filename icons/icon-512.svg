@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Madhu Bhajan">
+  <rect width="512" height="512" rx="96" fill="#0f0f12"/>
+  <circle cx="256" cy="240" r="140" fill="#7c3aed" opacity="0.25"/>
+  <path fill="#a78bfa" d="M188 140v232l168-116-168-116z"/>
+  <text x="256" y="420" text-anchor="middle" fill="#f4f4f5" font-family="system-ui,sans-serif" font-size="48" font-weight="700">Madhu Bhajan</text>
+</svg>
