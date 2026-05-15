@@ -1,6 +1,9 @@
-# My Music Player (PWA)
+# Madhu Bhajan (Music PWA)
 
-A simple music player you can open in the browser and install on your phone.
+A simple bhajan/music player you can open in the browser and install on your phone.
+
+**GitHub:** https://github.com/omdattaadmin/madhubhajan  
+**Live site (after Pages is enabled):** https://omdattaadmin.github.io/madhubhajan/
 
 ## MVP (this repo)
 
@@ -20,9 +23,7 @@ A simple music player you can open in the browser and install on your phone.
 2. **Source**: Deploy from a branch
 3. **Branch**: `main` → folder `/ (root)` → **Save**
 4. Wait 1–2 minutes. Your site will be at:
-   `https://YOUR_GITHUB_USERNAME.github.io/music-pwa/`
-
-Replace `YOUR_GITHUB_USERNAME` with your real GitHub username.
+   https://omdattaadmin.github.io/madhubhajan/
 
 ## Folder map
 
