@@ -2,8 +2,8 @@
 
 A simple bhajan/music player you can open in the browser and install on your phone.
 
-**GitHub:** https://github.com/omdattaadmin/madhubhajan  
-**Live site (after Pages is enabled):** https://omdattaadmin.github.io/madhubhajan/
+**GitHub:** https://github.com/madhubhajan/madhubhajan.github.io  
+**Live site:** https://madhubhajan.github.io/
 
 ## MVP (this repo)
 

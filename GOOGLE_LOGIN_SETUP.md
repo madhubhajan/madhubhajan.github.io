@@ -20,14 +20,14 @@ Firebase creates the Google OAuth client for you automatically.
 ## Step 2 — Check authorized domains
 
 1. **Authentication** → **Settings** → **Authorized domains**
-2. Confirm **`omdattaadmin.github.io`** is listed
+2. Confirm **`madhubhajan.github.io`** is listed
 3. **`localhost`** should also be there (for testing on PC)
 
 ---
 
 ## Step 3 — Test live site
 
-1. Open https://omdattaadmin.github.io/madhubhajan/
+1. Open https://madhubhajan.github.io/
 2. Hard refresh: **Ctrl + F5**
 3. Click **Continue with Google**
 4. Pick your Google account
@@ -49,7 +49,7 @@ You should stay logged in when you return later (no daily SMS).
 | Error | Fix |
 |-------|-----|
 | `auth/operation-not-allowed` | Enable Google in Step 1 |
-| `auth/unauthorized-domain` | Add `omdattaadmin.github.io` to authorized domains |
+| `auth/unauthorized-domain` | Add `madhubhajan.github.io` to authorized domains |
 | Popup blocked | Site will try redirect — allow popups or try again |
 | Google works but phone fails | Enable **Phone** sign-in method separately |
 
