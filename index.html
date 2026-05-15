@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f0f12" />
+    <meta name="description" content="Simple music player PWA" />
+    <title>My Music Player</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <h1>My Music Player</h1>
+        <p>3 free songs · log in to listen</p>
+      </header>
+
+      <section id="login-section" class="card">
+        <h2>Login</h2>
+        <p class="hint">
+          Enter your mobile number. Real SMS login (Firebase) is the next step.
+        </p>
+        <input
+          id="phone-input"
+          type="tel"
+          inputmode="numeric"
+          placeholder="10-digit mobile number"
+          autocomplete="tel"
+        />
+        <button type="button" id="login-btn">Continue</button>
+        <button type="button" id="logout-btn" class="secondary hidden">
+          Log out
+        </button>
+        <p id="user-status" class="hidden" role="status"></p>
+      </section>
+
+      <section id="player-section" class="card">
+        <h2>Free songs</h2>
+        <ul id="song-list" class="song-list"></ul>
+        <p id="now-playing" class="now-playing">Log in, then pick a song.</p>
+        <audio id="audio-player" controls preload="none"></audio>
+      </section>
+
+      <footer>My Music Player · MVP</footer>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

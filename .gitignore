@@ -1,0 +1,17 @@
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+
+# Secrets (never commit Firebase admin keys or Razorpay secret)
+.env
+.env.local
+firebase-debug.log
+firebase-debug.*.log
+
+# Optional: ignore large local test files you don't want on GitHub
+# *.mp3
