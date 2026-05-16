@@ -76,10 +76,14 @@
         <p id="premium-badge" class="premium-badge hidden">✓ Premium member</p>
       </section>
 
-      <section id="player-section" class="card">
-        <h2 id="player-heading">Bhajans</h2>
-        <ul id="song-list" class="song-list"></ul>
-        <p id="now-playing" class="now-playing">Log in, then pick a song.</p>
+      <section id="library-section" class="card hidden">
+        <h2 id="player-heading">Your bhajan folders</h2>
+        <p class="hint library-hint">Free members see the Free folder. Premium unlocks all folders.</p>
+        <div id="folder-dashboard" class="folder-dashboard"></div>
+      </section>
+
+      <section id="player-section" class="card hidden">
+        <p id="now-playing" class="now-playing">Log in to see folders and play bhajans.</p>
         <audio id="audio-player" controls preload="none"></audio>
       </section>
 

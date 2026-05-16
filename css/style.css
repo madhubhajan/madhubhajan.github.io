@@ -166,6 +166,71 @@ button.secondary {
   border: 1px dashed #52525b;
 }
 
+.library-hint {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.folder-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.folder-block {
+  border: 1px solid #27272a;
+  border-radius: 10px;
+  padding: 0.75rem;
+  background: #121214;
+}
+
+.folder-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.folder-heading h3 {
+  margin: 0;
+  font-size: 1rem;
+  flex: 1 1 auto;
+}
+
+.folder-desc {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #a1a1aa;
+  width: 100%;
+}
+
+.folder-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.folder-badge.free {
+  background: #14532d;
+  color: #4ade80;
+}
+
+.folder-badge.premium {
+  background: #3b0764;
+  color: #c4b5fd;
+}
+
+.folder-locked-note {
+  margin: 0;
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: #1c1917;
+  border: 1px dashed #52525b;
+}
+
 .premium-card {
   border-color: #7c3aed;
 }

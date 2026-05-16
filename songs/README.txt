@@ -1,10 +1,13 @@
-MP3 files for Madhu Bhajan
+Bhajan folders (on your PC)
 
-Current files:
-  song1.mp3  → Bhajan 1 (free)   — edit title in js/songs.js
-  song2.mp3  → Bhajan 2 (free)
-  song3.mp3  → Bhajan 3 (premium)
+  songs/free/      → free tier (after login)
+  songs/premium/ → premium tier (after ₹99 payment)
 
-To add song4.mp3, see ADD_SONGS.md in the project folder.
+MOVE your existing files:
+  song1.mp3  →  songs/free/song1.mp3
+  song2.mp3  →  songs/free/song2.mp3
+  song3.mp3  →  songs/premium/song3.mp3
 
-Use audio you own or have permission to distribute.
+Then push to GitHub. See ADD_SONGS.md for details.
+
+The website cannot auto-scan folders — you must list each song in js/songs.js.

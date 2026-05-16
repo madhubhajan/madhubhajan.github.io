@@ -47,8 +47,8 @@ window.MusicPremium = {
   setPremium(value) {
     this.isPremium = value;
     this.updateUI();
-    if (typeof window.renderSongList === "function") {
-      window.renderSongList();
+    if (typeof window.renderLibrary === "function") {
+      window.renderLibrary();
     }
   },
 

@@ -1,61 +1,83 @@
-# How to add or rename bhajans
+# Bhajan folders (free + premium)
 
-## Rename titles (easy — no new files)
+## Folder layout on your PC
 
-1. Open `D:\music-pwa\js\songs.js`
-2. Change the `title` for each song (e.g. `"Shree Krishna Bhajan"`)
-3. Save, then push:
-
-```powershell
-cd D:\music-pwa
-git add js/songs.js
-git commit -m "Update bhajan titles"
-git push
+```
+D:\music-pwa\songs\
+  free\          ← free tier (login required)
+    song1.mp3
+    song2.mp3
+  premium\       ← premium tier (after payment)
+    song3.mp3
 ```
 
-Wait 1–2 minutes → refresh https://madhubhajan.github.io/
+**Yes — upload / move MP3 files into these folders**, then register them in `js/songs.js`.
 
 ---
 
-## Add a new bhajan (4 steps)
+## Step 1 — Move your MP3 files (File Explorer)
 
-### 1. Add MP3 file
+1. Open `D:\music-pwa\songs\`
+2. Create folders `free` and `premium` if they are missing
+3. Move files:
+   - `song1.mp3` → `songs\free\song1.mp3`
+   - `song2.mp3` → `songs\free\song2.mp3`
+   - `song3.mp3` → `songs\premium\song3.mp3`
 
-Copy your file into `D:\music-pwa\songs\`, e.g. `song4.mp3`
+---
 
-Keep files under ~5 MB each when possible.
+## Step 2 — Edit the catalog
 
-### 2. Register in songs.js
+Open `D:\music-pwa\js\songs.js` and set titles / files to match.
 
-Add a new block at the end of the list in `js/songs.js`:
+---
+
+## Step 3 — Push to GitHub
+
+```powershell
+cd D:\music-pwa
+git add songs/ js/songs.js js/app.js index.html css/style.css
+git commit -m "Organize bhajans into free and premium folders"
+git push
+```
+
+Wait 1–2 minutes → https://madhubhajan.github.io/
+
+---
+
+## What users see
+
+| User | After login |
+|------|-------------|
+| Free (logged in) | **Free** folder only |
+| Premium (paid) | **Free** + **Premium** folders |
+
+Before login: **no folders** — only login + upgrade.
+
+---
+
+## Add more songs
+
+1. Copy MP3 into `songs/free/` or `songs/premium/`
+2. Add a track entry in `js/songs.js` under the right folder
+3. `git add` → `commit` → `push`
+
+---
+
+## Add another folder later
+
+Add a new block in `js/songs.js`:
 
 ```javascript
-  {
-    id: "song4",
-    title: "Your Bhajan Name",
-    file: "songs/song4.mp3",
-    premium: true,
-  },
+{
+  id: "special",
+  title: "Special",
+  description: "Premium only",
+  premiumRequired: true,
+  tracks: [
+    { id: "special-1", title: "My bhajan", file: "songs/special/my.mp3" },
+  ],
+},
 ```
 
-- `premium: false` = free for logged-in users  
-- `premium: true` = only after ₹99 upgrade  
-
-### 3. Push to GitHub
-
-```powershell
-cd D:\music-pwa
-git add songs/song4.mp3 js/songs.js
-git commit -m "Add song4 bhajan"
-git push
-```
-
-### 4. Test on phone
-
-Open the site → log in → play the new track.
-
----
-
-## Many songs later (100+)
-
-GitHub Pages is fine for a small library. For large traffic or huge files, plan **Firebase Storage** or a CDN (Phase G — ask when ready).
+Create matching folder `songs/special/` on disk.

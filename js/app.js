@@ -1,93 +1,215 @@
 /**
- * Music player — uses song list from songs.js
+ * Library dashboard — folders visible only after login.
  */
 
 const audio = document.getElementById("audio-player");
-const songListEl = document.getElementById("song-list");
+const folderDashboardEl = document.getElementById("folder-dashboard");
+const librarySectionEl = document.getElementById("library-section");
+const playerSectionEl = document.getElementById("player-section");
 const nowPlayingEl = document.getElementById("now-playing");
 
 let activeId = null;
 
-function getSongs() {
-  return window.SONGS || [];
+function getLibrary() {
+  return window.SONG_LIBRARY || { folders: [] };
 }
 
-function canPlaySong(song) {
-  if (window.MusicAuth && !window.MusicAuth.canPlay()) {
-    return false;
-  }
-  if (window.MusicPremium && !window.MusicPremium.canPlaySong(song)) {
-    return false;
-  }
+function isLoggedIn() {
+  return window.MusicAuth && window.MusicAuth.loggedIn;
+}
+
+function canAccessFolder(folder) {
+  if (!folder.premiumRequired) return true;
+  return window.MusicPremium && window.MusicPremium.isPremium;
+}
+
+function canPlayTrack(folder) {
+  if (!isLoggedIn()) return false;
+  if (!canAccessFolder(folder)) return false;
   return true;
 }
 
-function renderSongList() {
-  const songs = getSongs();
-  songListEl.innerHTML = "";
+function getVisibleFolders() {
+  const folders = getLibrary().folders || [];
+  const isPremium = window.MusicPremium && window.MusicPremium.isPremium;
 
-  songs.forEach((song) => {
-    const li = document.createElement("li");
-    const btn = document.createElement("button");
-    btn.type = "button";
-    const locked =
-      song.premium && window.MusicPremium && !window.MusicPremium.isPremium;
-    let label = song.title;
-    if (song.premium) label += locked ? " · Premium" : " · Premium ✓";
-    if (locked) label = "🔒 " + label;
-    btn.textContent = label;
-    btn.dataset.id = song.id;
-    if (song.id === activeId) btn.classList.add("active");
-    if (locked) btn.classList.add("locked");
-    btn.addEventListener("click", () => playSong(song));
-    li.appendChild(btn);
-    songListEl.appendChild(li);
+  return folders.filter((folder) => {
+    if (!folder.premiumRequired) return true;
+    return isPremium;
   });
-
-  updateSongCountHint();
 }
 
-function updateSongCountHint() {
+function updateHeaderHint() {
   const el = document.getElementById("song-count-hint");
   if (!el) return;
-  const songs = getSongs();
-  const free = songs.filter((s) => !s.premium).length;
-  const premium = songs.filter((s) => s.premium).length;
-  el.textContent =
-    free + " free · " + premium + " premium · log in to listen";
+
+  if (!isLoggedIn()) {
+    el.textContent = "Log in to see your bhajan folders";
+    return;
+  }
+
+  const isPremium = window.MusicPremium && window.MusicPremium.isPremium;
+  if (isPremium) {
+    el.textContent = "Premium member — all folders unlocked";
+  } else {
+    el.textContent = "Free folder unlocked · upgrade for premium folder";
+  }
 }
 
-window.renderSongList = renderSongList;
+function setLibraryVisible(visible) {
+  if (librarySectionEl) {
+    librarySectionEl.classList.toggle("hidden", !visible);
+  }
+  if (playerSectionEl) {
+    playerSectionEl.classList.toggle("hidden", !visible);
+  }
+}
 
-function playSong(song) {
-  if (!canPlaySong(song)) {
-    if (window.MusicAuth && !window.MusicAuth.canPlay()) {
-      nowPlayingEl.textContent = "Please log in to play music.";
-    } else if (song.premium) {
-      nowPlayingEl.textContent = "Premium only — tap Upgrade to unlock.";
+function renderLibrary() {
+  updateHeaderHint();
+
+  if (!folderDashboardEl) return;
+
+  if (!isLoggedIn()) {
+    setLibraryVisible(false);
+    folderDashboardEl.innerHTML = "";
+    if (nowPlayingEl) {
+      nowPlayingEl.textContent = "Log in to see folders and play bhajans.";
     }
     return;
   }
 
-  activeId = song.id;
-  audio.src = song.file;
-  audio.play().catch(() => {
-    nowPlayingEl.textContent =
-      "Could not play. Add " + song.file.split("/").pop() + " to the songs folder.";
+  setLibraryVisible(true);
+
+  const visibleFolders = getVisibleFolders();
+  folderDashboardEl.innerHTML = "";
+
+  if (visibleFolders.length === 0) {
+    folderDashboardEl.innerHTML =
+      '<p class="hint">No folders configured. Edit js/songs.js</p>';
+    return;
+  }
+
+  visibleFolders.forEach((folder) => {
+    const block = document.createElement("div");
+    block.className = "folder-block";
+
+    const heading = document.createElement("div");
+    heading.className = "folder-heading";
+
+    const title = document.createElement("h3");
+    title.textContent = folder.title;
+    heading.appendChild(title);
+
+    if (folder.description) {
+      const desc = document.createElement("p");
+      desc.className = "folder-desc";
+      desc.textContent = folder.description;
+      heading.appendChild(desc);
+    }
+
+    if (folder.premiumRequired) {
+      const badge = document.createElement("span");
+      badge.className = "folder-badge premium";
+      badge.textContent = "Premium";
+      heading.appendChild(badge);
+    } else {
+      const badge = document.createElement("span");
+      badge.className = "folder-badge free";
+      badge.textContent = "Free";
+      heading.appendChild(badge);
+    }
+
+    block.appendChild(heading);
+
+    const list = document.createElement("ul");
+    list.className = "song-list";
+
+    (folder.tracks || []).forEach((track) => {
+      const li = document.createElement("li");
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.textContent = track.title;
+      btn.dataset.id = track.id;
+
+      if (track.id === activeId) btn.classList.add("active");
+
+      btn.addEventListener("click", () => playTrack(track, folder));
+      li.appendChild(btn);
+      list.appendChild(li);
+    });
+
+    block.appendChild(list);
+    folderDashboardEl.appendChild(block);
   });
-  nowPlayingEl.textContent = "Now playing: " + song.title;
-  renderSongList();
+
+  const allFolders = getLibrary().folders || [];
+  const hiddenPremium = allFolders.some(
+    (f) => f.premiumRequired && !canAccessFolder(f)
+  );
+
+  if (hiddenPremium) {
+    const note = document.createElement("p");
+    note.className = "hint folder-locked-note";
+    note.textContent =
+      "Premium folder is hidden until you upgrade. Tap Upgrade above to unlock all folders.";
+    folderDashboardEl.appendChild(note);
+  }
 }
 
-audio.addEventListener("ended", () => {
-  const songs = getSongs();
-  const idx = songs.findIndex((s) => s.id === activeId);
-  if (idx >= 0 && idx < songs.length - 1) {
-    const next = songs[idx + 1];
-    if (canPlaySong(next)) {
-      playSong(next);
+window.renderLibrary = renderLibrary;
+window.renderSongList = renderLibrary;
+
+function playTrack(track, folder) {
+  if (!isLoggedIn()) {
+    nowPlayingEl.textContent = "Please log in first.";
+    return;
+  }
+
+  if (!canPlayTrack(folder)) {
+    nowPlayingEl.textContent = "Upgrade to Premium to open this folder.";
+    return;
+  }
+
+  activeId = track.id;
+  audio.src = track.file;
+  audio.play().catch(() => {
+    nowPlayingEl.textContent =
+      "Could not play. Put the file at: " + track.file;
+  });
+  nowPlayingEl.textContent = "Now playing: " + track.title + " (" + folder.title + ")";
+  renderLibrary();
+}
+
+function playNextInLibrary() {
+  const folders = getVisibleFolders();
+  let foundCurrent = false;
+
+  for (let f = 0; f < folders.length; f++) {
+    const tracks = folders[f].tracks || [];
+    for (let t = 0; t < tracks.length; t++) {
+      if (foundCurrent) {
+        playTrack(tracks[t], folders[f]);
+        return;
+      }
+      if (tracks[t].id === activeId) {
+        foundCurrent = true;
+      }
     }
   }
-});
+}
 
-renderSongList();
+audio.addEventListener("ended", playNextInLibrary);
+
+window.onAuthChanged = function () {
+  if (!isLoggedIn()) {
+    activeId = null;
+    audio.pause();
+    audio.removeAttribute("src");
+  }
+  renderLibrary();
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderLibrary();
+});
