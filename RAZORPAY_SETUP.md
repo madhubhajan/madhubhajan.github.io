@@ -45,17 +45,30 @@ Sign in with the Google account that owns the Firebase project.
 
 ---
 
-## Part 4 — Set Razorpay keys on Firebase
+## Part 4 — Set Razorpay secrets (new method)
+
+The old `functions:config:set` command is deprecated. Use **secrets** instead.
 
 In PowerShell:
 
 ```powershell
 cd D:\music-pwa
 firebase use madhubhajan-fc952
-firebase functions:config:set razorpay.key_id="rzp_test_YOUR_KEY_ID" razorpay.key_secret="YOUR_KEY_SECRET"
 ```
 
-Replace with your real test keys from Part 1.
+Set Key ID (paste your `rzp_test_...` when asked):
+
+```powershell
+firebase functions:secrets:set RAZORPAY_KEY_ID
+```
+
+Set Key secret (paste your secret when asked — it will not show on screen):
+
+```powershell
+firebase functions:secrets:set RAZORPAY_KEY_SECRET
+```
+
+**Security:** Never paste keys in chat or commit them to GitHub. If a key was exposed, regenerate it in Razorpay Dashboard → API Keys.
 
 ---
 

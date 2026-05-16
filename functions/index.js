@@ -1,42 +1,43 @@
-const functions = require("firebase-functions");
+const { onCall, HttpsError } = require("firebase-functions/v2/https");
+const { defineSecret } = require("firebase-functions/params");
 const admin = require("firebase-admin");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 
 admin.initializeApp();
 
+const razorpayKeyId = defineSecret("RAZORPAY_KEY_ID");
+const razorpayKeySecret = defineSecret("RAZORPAY_KEY_SECRET");
+
 const PREMIUM_AMOUNT_PAISE = 9900; // ₹99 — change only here
 
-function getRazorpayKeys() {
-  const config = functions.config().razorpay || {};
-  const keyId = config.key_id || process.env.RAZORPAY_KEY_ID;
-  const keySecret = config.key_secret || process.env.RAZORPAY_KEY_SECRET;
+const callOptions = {
+  secrets: [razorpayKeyId, razorpayKeySecret],
+};
+
+exports.createRazorpayOrder = onCall(callOptions, async (request) => {
+  if (!request.auth) {
+    throw new HttpsError("unauthenticated", "Please log in before upgrading.");
+  }
+
+  const keyId = razorpayKeyId.value();
+  const keySecret = razorpayKeySecret.value();
+
   if (!keyId || !keySecret) {
-    throw new functions.https.HttpsError(
+    throw new HttpsError(
       "failed-precondition",
-      "Razorpay keys not configured. See RAZORPAY_SETUP.md."
-    );
-  }
-  return { keyId, keySecret };
-}
-
-exports.createRazorpayOrder = functions.https.onCall(async (data, context) => {
-  if (!context.auth) {
-    throw new functions.https.HttpsError(
-      "unauthenticated",
-      "Please log in before upgrading."
+      "Razorpay keys not set. Run: firebase functions:secrets:set RAZORPAY_KEY_ID"
     );
   }
 
-  const { keyId, keySecret } = getRazorpayKeys();
   const razorpay = new Razorpay({ key_id: keyId, key_secret: keySecret });
 
   const order = await razorpay.orders.create({
     amount: PREMIUM_AMOUNT_PAISE,
     currency: "INR",
-    receipt: "premium_" + context.auth.uid.slice(0, 8) + "_" + Date.now(),
+    receipt: "premium_" + request.auth.uid.slice(0, 8) + "_" + Date.now(),
     notes: {
-      uid: context.auth.uid,
+      uid: request.auth.uid,
       product: "madhubhajan_premium",
     },
   });
@@ -49,26 +50,24 @@ exports.createRazorpayOrder = functions.https.onCall(async (data, context) => {
   };
 });
 
-exports.verifyRazorpayPayment = functions.https.onCall(async (data, context) => {
-  if (!context.auth) {
-    throw new functions.https.HttpsError(
+exports.verifyRazorpayPayment = onCall(callOptions, async (request) => {
+  if (!request.auth) {
+    throw new HttpsError(
       "unauthenticated",
       "Please log in before verifying payment."
     );
   }
 
+  const data = request.data || {};
   const orderId = data.razorpay_order_id;
   const paymentId = data.razorpay_payment_id;
   const signature = data.razorpay_signature;
 
   if (!orderId || !paymentId || !signature) {
-    throw new functions.https.HttpsError(
-      "invalid-argument",
-      "Missing payment details."
-    );
+    throw new HttpsError("invalid-argument", "Missing payment details.");
   }
 
-  const { keySecret } = getRazorpayKeys();
+  const keySecret = razorpayKeySecret.value();
   const body = orderId + "|" + paymentId;
   const expected = crypto
     .createHmac("sha256", keySecret)
@@ -76,16 +75,13 @@ exports.verifyRazorpayPayment = functions.https.onCall(async (data, context) => 
     .digest("hex");
 
   if (expected !== signature) {
-    throw new functions.https.HttpsError(
-      "permission-denied",
-      "Payment verification failed."
-    );
+    throw new HttpsError("permission-denied", "Payment verification failed.");
   }
 
   await admin
     .firestore()
     .collection("users")
-    .doc(context.auth.uid)
+    .doc(request.auth.uid)
     .set(
       {
         isPremium: true,
