@@ -1,18 +1,16 @@
 /**
- * Music player — free + premium bhajans
+ * Music player — uses song list from songs.js
  */
-
-const SONGS = [
-  { id: "song1", title: "Song 1", file: "songs/song1.mp3", premium: false },
-  { id: "song2", title: "Song 2", file: "songs/song2.mp3", premium: false },
-  { id: "song3", title: "Song 3", file: "songs/song3.mp3", premium: true },
-];
 
 const audio = document.getElementById("audio-player");
 const songListEl = document.getElementById("song-list");
 const nowPlayingEl = document.getElementById("now-playing");
 
 let activeId = null;
+
+function getSongs() {
+  return window.SONGS || [];
+}
 
 function canPlaySong(song) {
   if (window.MusicAuth && !window.MusicAuth.canPlay()) {
@@ -25,13 +23,19 @@ function canPlaySong(song) {
 }
 
 function renderSongList() {
+  const songs = getSongs();
   songListEl.innerHTML = "";
-  SONGS.forEach((song) => {
+
+  songs.forEach((song) => {
     const li = document.createElement("li");
     const btn = document.createElement("button");
     btn.type = "button";
-    const locked = song.premium && window.MusicPremium && !window.MusicPremium.isPremium;
-    btn.textContent = locked ? "🔒 " + song.title + " (Premium)" : song.title;
+    const locked =
+      song.premium && window.MusicPremium && !window.MusicPremium.isPremium;
+    let label = song.title;
+    if (song.premium) label += locked ? " · Premium" : " · Premium ✓";
+    if (locked) label = "🔒 " + label;
+    btn.textContent = label;
     btn.dataset.id = song.id;
     if (song.id === activeId) btn.classList.add("active");
     if (locked) btn.classList.add("locked");
@@ -39,6 +43,18 @@ function renderSongList() {
     li.appendChild(btn);
     songListEl.appendChild(li);
   });
+
+  updateSongCountHint();
+}
+
+function updateSongCountHint() {
+  const el = document.getElementById("song-count-hint");
+  if (!el) return;
+  const songs = getSongs();
+  const free = songs.filter((s) => !s.premium).length;
+  const premium = songs.filter((s) => s.premium).length;
+  el.textContent =
+    free + " free · " + premium + " premium · log in to listen";
 }
 
 window.renderSongList = renderSongList;
@@ -64,9 +80,10 @@ function playSong(song) {
 }
 
 audio.addEventListener("ended", () => {
-  const idx = SONGS.findIndex((s) => s.id === activeId);
-  if (idx >= 0 && idx < SONGS.length - 1) {
-    const next = SONGS[idx + 1];
+  const songs = getSongs();
+  const idx = songs.findIndex((s) => s.id === activeId);
+  if (idx >= 0 && idx < songs.length - 1) {
+    const next = songs[idx + 1];
     if (canPlaySong(next)) {
       playSong(next);
     }

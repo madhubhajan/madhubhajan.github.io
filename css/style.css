@@ -213,3 +213,8 @@ footer {
   font-size: 0.75rem;
   color: #52525b;
 }
+
+footer a {
+  color: #a78bfa;
+  text-decoration: none;
+}

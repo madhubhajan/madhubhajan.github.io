@@ -1,11 +1,10 @@
-Put exactly 3 MP3 files in this folder with these names:
+MP3 files for Madhu Bhajan
 
-  song1.mp3
-  song2.mp3
-  song3.mp3
+Current files:
+  song1.mp3  → Bhajan 1 (free)   — edit title in js/songs.js
+  song2.mp3  → Bhajan 2 (free)
+  song3.mp3  → Bhajan 3 (premium)
 
-Use music you own or royalty-free tracks (e.g. from Pixabay, Free Music Archive).
+To add song4.mp3, see ADD_SONGS.md in the project folder.
 
-Keep each file under about 5 MB so GitHub stays happy.
-
-After copying the files, refresh index.html in your browser.
+Use audio you own or have permission to distribute.

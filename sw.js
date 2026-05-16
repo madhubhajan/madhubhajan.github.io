@@ -3,7 +3,7 @@
  * Bhajan MP3 files always load from network (not cached here).
  */
 
-const CACHE_NAME = "madhubhajan-v4";
+const CACHE_NAME = "madhubhajan-v5";
 
 const PRECACHE_URLS = [
   "/",
@@ -13,6 +13,7 @@ const PRECACHE_URLS = [
   "/js/firebase-config.js",
   "/js/firestore.js",
   "/js/auth.js",
+  "/js/songs.js",
   "/js/app.js",
   "/js/premium.js",
   "/js/pwa.js",
