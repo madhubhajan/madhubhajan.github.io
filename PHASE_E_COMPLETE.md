@@ -77,10 +77,9 @@ You should see:
 
    **Do not use** `4111 1111 1111 1111` on India-only accounts — Razorpay treats it as **international** and blocks it.
 
-   **Option B — Test UPI (easiest)**
-   - Tap **UPI** on the Razorpay screen
+   **Option B — Test UPI (only if you see UPI on screen)**
    - UPI ID: `success@razorpay`
-   - Approve → payment succeeds in test mode
+   - If **UPI is missing**, use Option A (card) below — common in test mode until you enable UPI in Razorpay Dashboard → **Payment methods** → **UPI** → Enable
 4. **Expected:** Alert **“Thank you! Premium is now active.”**
 5. **Bhajan 3** plays (no lock)
 6. **✓ Premium member** shows on screen

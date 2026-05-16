@@ -141,6 +141,13 @@ window.MusicPremium = {
           contact: user.phoneNumber || "",
         },
         theme: { color: "#7c3aed" },
+        method: {
+          upi: true,
+          card: true,
+          netbanking: true,
+          wallet: true,
+          paylater: true,
+        },
       };
 
       const rzp = new Razorpay(options);
