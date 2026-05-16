@@ -172,7 +172,7 @@ function playTrack(track, folder) {
   }
 
   activeId = track.id;
-  audio.src = track.file;
+  audio.src = encodeURI(track.file).replace(/#/g, "%23");
   audio.play().catch(() => {
     nowPlayingEl.textContent =
       "Could not play. Put the file at: " + track.file;

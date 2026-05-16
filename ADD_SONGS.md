@@ -26,9 +26,18 @@ D:\music-pwa\songs\
 
 ---
 
-## Step 2 — Edit the catalog
+## Step 2 — Update the catalog (automatic)
 
-Open `D:\music-pwa\js\songs.js` and set titles / files to match.
+After adding or moving MP3 folders, run:
+
+```powershell
+cd D:\music-pwa
+node scripts/generate-songs.js
+```
+
+This rebuilds `js/songs.js` from your `songs/free/` and `songs/premium/` folders.
+
+To rename a song on screen only, edit titles in `js/songs.js` after generating (or edit filenames before generating).
 
 ---
 
