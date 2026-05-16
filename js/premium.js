@@ -1,6 +1,13 @@
 /**
  * Premium status (Firestore) + Razorpay upgrade (Cloud Functions).
+ * Functions run in Mumbai (asia-south1) — same region as Firestore.
  */
+
+const FUNCTIONS_REGION = "asia-south1";
+
+function getPaymentFunctions() {
+  return firebase.app().functions(FUNCTIONS_REGION);
+}
 
 window.MusicPremium = {
   isPremium: false,
@@ -90,9 +97,9 @@ window.MusicPremium = {
     }
 
     try {
-      const createOrder = firebase
-        .functions()
-        .httpsCallable("createRazorpayOrder");
+      const createOrder = getPaymentFunctions().httpsCallable(
+        "createRazorpayOrder"
+      );
       const result = await createOrder();
       const data = result.data;
 
@@ -111,9 +118,9 @@ window.MusicPremium = {
         order_id: data.orderId,
         handler: async function (response) {
           try {
-            const verify = firebase
-              .functions()
-              .httpsCallable("verifyRazorpayPayment");
+            const verify = getPaymentFunctions().httpsCallable(
+              "verifyRazorpayPayment"
+            );
             await verify({
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,

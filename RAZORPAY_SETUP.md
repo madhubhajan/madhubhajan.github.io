@@ -83,6 +83,14 @@ firebase deploy --only functions
 
 Wait until you see URLs for `createRazorpayOrder` and `verifyRazorpayPayment`.
 
+Functions deploy to **asia-south1 (Mumbai)**. Check with:
+
+```powershell
+firebase functions:list
+```
+
+Location should show `asia-south1`. Delete old `us-central1` copies in Firebase Console → **Functions** if they still appear (optional).
+
 ---
 
 ## Part 6 — Push website code

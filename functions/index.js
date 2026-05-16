@@ -12,6 +12,7 @@ const razorpayKeySecret = defineSecret("RAZORPAY_KEY_SECRET");
 const PREMIUM_AMOUNT_PAISE = 9900; // ₹99 — change only here
 
 const callOptions = {
+  region: "asia-south1",
   secrets: [razorpayKeyId, razorpayKeySecret],
 };
 
