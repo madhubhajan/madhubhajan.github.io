@@ -23,7 +23,7 @@ A simple bhajan/music player you can open in the browser and install on your pho
 2. **Source**: Deploy from a branch
 3. **Branch**: `main` → folder `/ (root)` → **Save**
 4. Wait 1–2 minutes. Your site will be at:
-   https://omdattaadmin.github.io/madhubhajan/
+   https://madhubhajan.github.io/
 
 ## Folder map
 

@@ -151,7 +151,12 @@ window.MusicPremium = {
       rzp.open();
     } catch (err) {
       console.error(err);
-      alert(err.message || "Could not start payment. See RAZORPAY_SETUP.md.");
+      const code = err.code ? "[" + err.code + "] " : "";
+      const msg =
+        err.message ||
+        (err.details ? String(err.details) : "") ||
+        "Could not start payment.";
+      alert(code + msg + "\n\nSee PHASE_E_COMPLETE.md on GitHub.");
     } finally {
       if (btn) {
         btn.disabled = false;
