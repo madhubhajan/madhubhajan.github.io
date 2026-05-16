@@ -9,6 +9,25 @@ function getPaymentFunctions() {
   return firebase.app().functions(FUNCTIONS_REGION);
 }
 
+function formatPaymentError(err) {
+  if (!err) return "Unknown error";
+  if (typeof err.details === "string" && err.details) return err.details;
+  if (err.message && err.message !== "internal") return err.message;
+  if (err.code === "functions/not-found") {
+    return (
+      "Payment server not found in " +
+      FUNCTIONS_REGION +
+      ". Run: firebase deploy --only functions"
+    );
+  }
+  if (err.code === "functions/internal") {
+    return (
+      "Server error. Redeploy functions and check Firebase → Functions → Logs."
+    );
+  }
+  return err.message || "Could not start payment.";
+}
+
 window.MusicPremium = {
   isPremium: false,
   priceLabel: "₹99",
@@ -157,13 +176,9 @@ window.MusicPremium = {
       });
       rzp.open();
     } catch (err) {
-      console.error(err);
-      const code = err.code ? "[" + err.code + "] " : "";
-      const msg =
-        err.message ||
-        (err.details ? String(err.details) : "") ||
-        "Could not start payment.";
-      alert(code + msg + "\n\nSee PHASE_E_COMPLETE.md on GitHub.");
+      console.error("Upgrade error:", err);
+      const code = err.code ? err.code + ": " : "";
+      alert(code + formatPaymentError(err));
     } finally {
       if (btn) {
         btn.disabled = false;

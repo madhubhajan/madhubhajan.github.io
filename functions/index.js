@@ -21,8 +21,8 @@ exports.createRazorpayOrder = onCall(callOptions, async (request) => {
     throw new HttpsError("unauthenticated", "Please log in before upgrading.");
   }
 
-  const keyId = razorpayKeyId.value();
-  const keySecret = razorpayKeySecret.value();
+  const keyId = (razorpayKeyId.value() || "").trim();
+  const keySecret = (razorpayKeySecret.value() || "").trim();
 
   if (!keyId || !keySecret) {
     throw new HttpsError(
@@ -33,22 +33,33 @@ exports.createRazorpayOrder = onCall(callOptions, async (request) => {
 
   const razorpay = new Razorpay({ key_id: keyId, key_secret: keySecret });
 
-  const order = await razorpay.orders.create({
-    amount: PREMIUM_AMOUNT_PAISE,
-    currency: "INR",
-    receipt: "premium_" + request.auth.uid.slice(0, 8) + "_" + Date.now(),
-    notes: {
-      uid: request.auth.uid,
-      product: "madhubhajan_premium",
-    },
-  });
+  const receipt = ("mb_" + Date.now()).slice(0, 40);
 
-  return {
-    keyId,
-    orderId: order.id,
-    amount: order.amount,
-    currency: order.currency,
-  };
+  try {
+    const order = await razorpay.orders.create({
+      amount: PREMIUM_AMOUNT_PAISE,
+      currency: "INR",
+      receipt,
+      notes: {
+        uid: request.auth.uid,
+        product: "madhubhajan_premium",
+      },
+    });
+
+    return {
+      keyId,
+      orderId: order.id,
+      amount: order.amount,
+      currency: order.currency,
+    };
+  } catch (error) {
+    console.error("Razorpay create order failed:", error);
+    const description =
+      (error.error && error.error.description) ||
+      error.message ||
+      "Could not create Razorpay order.";
+    throw new HttpsError("failed-precondition", description);
+  }
 });
 
 exports.verifyRazorpayPayment = onCall(callOptions, async (request) => {
