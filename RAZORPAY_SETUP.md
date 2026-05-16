@@ -111,10 +111,10 @@ Wait 1–2 minutes. Open https://madhubhajan.github.io/ → **Ctrl + F5**
 1. Log in with Google
 2. Song 3 should show **🔒 (Premium)**
 3. Tap **Upgrade to Premium — ₹99**
-4. Razorpay test card:
-   - Number: `4111 1111 1111 1111`
-   - Expiry: any future date
-   - CVV: any 3 digits
+4. Razorpay test payment (pick one):
+   - **UPI:** `success@razorpay`
+   - **Indian test card:** `5267 3181 8797 5449` (expiry any future, CVV `123`)
+   - Avoid `4111 1111 1111 1111` if you see “International cards not supported”
 5. After success → Song 3 plays → Firestore `isPremium: true`
 
 ---

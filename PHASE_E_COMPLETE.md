@@ -66,11 +66,21 @@ You should see:
 
 1. Tap **Upgrade to Premium — ₹99**
 2. **Expected:** Razorpay payment window opens
-3. Pay with test card:
-   - Number: `4111 1111 1111 1111`
+3. Pay using **one** of these (Razorpay **test mode**):
+
+   **Option A — Indian test card (use this if you saw “International cards not supported”)**
+   - Number: `5267 3181 8797 5449` (domestic Mastercard)
+   - Or: `4012 0010 3714 1112` (domestic Visa)
    - Expiry: any future date (e.g. `12/30`)
    - CVV: `123`
    - OTP: `123456` if asked
+
+   **Do not use** `4111 1111 1111 1111` on India-only accounts — Razorpay treats it as **international** and blocks it.
+
+   **Option B — Test UPI (easiest)**
+   - Tap **UPI** on the Razorpay screen
+   - UPI ID: `success@razorpay`
+   - Approve → payment succeeds in test mode
 4. **Expected:** Alert **“Thank you! Premium is now active.”**
 5. **Bhajan 3** plays (no lock)
 6. **✓ Premium member** shows on screen
@@ -114,6 +124,7 @@ You should see:
 | `unauthenticated` | Log in with Google first |
 | `auth/unauthorized-domain` | Step 2 — add `madhubhajan.github.io` |
 | Razorpay popup does not open | Use Chrome; check browser console (F12) |
+| **International cards are not supported** | Use **5267 3181 8797 5449** or UPI `success@razorpay` (see Step 5) |
 | Payment OK but still locked | Wait 5 sec; refresh page; check Firestore rules |
 
 ### See detailed error (browser)
